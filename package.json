@@ -1,0 +1,27 @@
+{
+  "name": "protractor-snapshot",
+  "version": "0.1.0-alpha",
+  "description": "Protractor screenshot and html snapshot utility",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KrekkieD/protractor-snapshot.git"
+  },
+  "author": "Gregory Cowan <g.cowan@amnzero.nl>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KrekkieD/protractor-snapshot/issues"
+  },
+  "homepage": "https://github.com/KrekkieD/protractor-snapshot#readme",
+  "devDependencies": {
+    "buenos-jscs": "^0.3.2",
+    "buenos-jshint": "^0.2.3",
+    "protractor": "^2.2.0"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.1"
+  }
+}
