@@ -4,7 +4,7 @@ var $snapshot = require('../..');
 
 describe('api example', function () {
 
-    it('Should get config from protractor.conf', function () {
+    xit('Should get config from protractor.conf', function () {
 
 
 
@@ -13,20 +13,20 @@ describe('api example', function () {
     it('Should allow screenshots to be taken', function () {
 
         $snapshot.image();
-
-        $snapshot.image('my-name');
-
-        $snapshot.image(function (png) {
-            // custom handler
-        });
-
-        $snapshot.image('my-name', function (png) {
-            // custom handler
-        });
-
-        $snapshot.image({
-
-        });
+        //
+        //$snapshot.image('my-name');
+        //
+        //$snapshot.image(function (png) {
+        //    // custom handler
+        //});
+        //
+        //$snapshot.image('my-name', function (png) {
+        //    // custom handler
+        //});
+        //
+        //$snapshot.image({
+        //
+        //});
 
     });
 
@@ -34,15 +34,19 @@ describe('api example', function () {
 
         $snapshot.source();
 
-        $snapshot.source('my-name');
+        //$snapshot.source('my-name');
 
     });
 
-    it('Should be able to do responsive snapshot trips', function () {
+    xit('Should be able to do responsive snapshot trips', function () {
 
-        $snapshot.cycle().image();
+        $snapshot.cycle($snapshot.image());
 
-        $snapshot.cycle().source();
+        $snapshot.cycle($snapshot.source());
+
+        $snapshot.cycle([
+            [400,800]
+        ], $snapshot.source());
 
     });
 

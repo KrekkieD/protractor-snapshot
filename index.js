@@ -1,14 +1,19 @@
 'use strict';
 
-var $screenshot = require('./lib/screenshot');
-var $snapshot = require('./lib/snapshot');
+var $image = require('./lib/image');
+var $source = require('./lib/source');
+var $config = require('./lib/config');
 
-module.exports = new protractorSnapshot();
-module.exports.screenshot = $screenshot;
-module.exports.snapshot = $snapshot;
-module.exports.cycle = cycle;
+
+module.exports = new ProtractorSnapshot();
 
 function ProtractorSnapshot () {
+
+    // confirm we're in a protractor process
+    if (typeof browser === 'undefined') {
+        throw 'Could not find a "browser" variable, please confirm this is a protractor process';
+    }
+
 
     var self = this;
 
@@ -16,117 +21,58 @@ function ProtractorSnapshot () {
     self.image = image;
     self.source = source;
 
-    // confirm we're in a protractor process
-    if (typeof browser === 'undefined') {
-        throw 'Could not find a "browser" variable, please confirm this is a protractor process';
-    }
+    self.getSuiteName = getSuiteName;
+    self.getSpecName = getSpecName;
 
-    return {
-        cycle: self.cycle,
-        image: self.image,
-        source: self.source
-    };
+    self.config = $config.extract();
 
-    // extract protractor config on require of the module
-    console.log(jasmine.getEnv().currentSpec.suite.description);
-    console.log(jasmine.getEnv().currentSpec.description);
-    console.log(browser.getProcessedConfig().value_.projectConfiguration);
-
-    function cycle () {
+    function cycle (resolutions, callback) {
 
         // cycle over provided or configured resolutions
-
-
-    }
-
-    function image () {
-
-
-
-    }
-
-    function source () {
-
-
-
-    }
-
-}
-
-
-function cycle (resolutions) {
-
-    // iterate over provided resolutions or config resolutions
-    resolutions = resolutions || config.resolutions;
-
-    if (!Array.isArray(resolutions)) {
-        throw 'cycle() expects an array of resolutions as argument, or defined in config';
-    }
-
-
-    return {
-        image: function () {
-            resolutions.forEach(function (resolution) {
-
-            });
-        },
-        source: function () {
-            resolutions.forEach(function (resolution) {
-
-                // resize window
-                // booger.resize(resolution);
-
-                // perform function call
-                $snapshot.apply(null, Array.prototype.slice.call(arguments));
-
-            });
+        if (typeof resolutions === 'function') {
+            callback = resolutions;
+            resolutions = self.config.resolutions;
         }
-    };
 
-}
+        resolutions.forEach(function (resolution) {
 
+            _resizeBrowser(resolution[0], resolution[1]);
 
-function _validateSnapshotConfig (config) {
+            // perform callback
+            callback();
 
-    var validatedConfig = {};
+        });
 
+        // reset window size to default
+        _resizeBrowser(self.config.defaultResolution[0], self.config.defaultResolution[1]);
 
+    }
 
-}
+    function image (customConfig) {
 
-function _getDefaultConfig () {
+        return $image(self, self.config.image.callbacks, customConfig);
 
-    return {
-        snapshot: {
-            callbacks: [
-                $screenshot._save
-            ]
-        },
-        screenshot: {
-            callbacks: [
-                $screenshot._save
-            ]
-        },
-        screenshotCompare: {
-            threshold: 95
-        }
-    };
+    }
 
-}
+    function source (customConfig) {
 
-function _createInstance (config) {
-
-    var i = new Instance(config);
+        return $source(self, self.config.image.callbacks, customConfig);
 
 
-}
+    }
 
-function Instance (config) {
+    function getSuiteName () {
+        return jasmine.getEnv().currentSpec.suite.description;
+    }
 
-    var self = this;
-    self.config = config;
+    function getSpecName () {
+        return jasmine.getEnv().currentSpec.description;
+    }
 
-    self.snapshot = $snapshot;
-    self.screenshot = $screenshot;
+    function _resizeBrowser (width, height) {
+
+        browser.manage().window().setSize(width, height);
+
+    }
 
 }

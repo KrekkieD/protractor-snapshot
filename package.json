@@ -22,6 +22,7 @@
     "protractor": "^2.2.0"
   },
   "dependencies": {
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "sanitize-filename": "^1.4.3"
   }
 }
