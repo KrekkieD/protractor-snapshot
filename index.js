@@ -8,6 +8,8 @@ var $config = require('./lib/config');
 
 
 module.exports = new ProtractorSnapshot();
+module.exports.saveImage = $image.save;
+module.exports.saveSource = $source.save;
 
 function ProtractorSnapshot () {
 
