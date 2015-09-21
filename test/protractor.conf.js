@@ -3,6 +3,7 @@
 var $upTheTree = require('up-the-tree');
 var $seleniumJar = require('selenium-server-standalone-jar');
 var $chromeDriver = require('chromedriver');
+var $rimraf = require('rimraf');
 
 module.exports.config = {
 
@@ -72,5 +73,8 @@ module.exports.config.onPrepare = function () {
 
     // start server
     require($upTheTree() + '/test/test-server');
+
+    // clean reports folder
+    $rimraf.sync($upTheTree() + '/reports');
 
 };
