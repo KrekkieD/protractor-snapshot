@@ -6,7 +6,7 @@ var $snapshot = require('../..');
 
 var $q = require('q');
 
-xdescribe('The Snapshot module', function () {
+describe('The Snapshot module', function () {
 
     beforeEach(function () {
         $snapshot.setConfig({});
@@ -124,6 +124,7 @@ xdescribe('The Snapshot module', function () {
         deferreds.push($snapshot.source(function (self, data) {
 
             expect(self).toBe($snapshot);
+            expect(data).toContain('<html');
 
             return data;
 
