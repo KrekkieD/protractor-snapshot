@@ -10,11 +10,11 @@ module.exports = runProtractor;
 
 if (!module.parent) {
     runProtractor({
-        configFile: $path.resolve($upTheTree(), 'test/e2e/protractor.conf.js'),
+        configFile: $path.resolve($upTheTree(), 'test/protractor.conf.js'),
         files: [
-            $path.resolve($upTheTree(), 'test/e2e') + '/**/*.spec.js'
+            $path.resolve($upTheTree(), 'test/specs') + '/**/*.spec.js'
         ]
-    });
+    }).done();
 }
 
 function runProtractor (options) {

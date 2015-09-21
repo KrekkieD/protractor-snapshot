@@ -10,22 +10,17 @@ module.exports.config = {
     getPageTimeout: 15000,
 
     capabilities: {
-        browserName: 'firefox',
+        browserName: 'chrome',
         version: 'ANY',
         platform: 'ANY',
         chromeOptions: {
             args: ['--test-type']
-        },
-        proxy: {
-            proxyType: 'manual',
-            httpProxy: 'https://localhost:8010',
-            noProxy: '*.klm.com,*.static-afkl.com,localhost,*.localhost.nl'
         }
     },
 
     chromeDriver: $chromeDriver.path,
 
-    baseUrl: 'https://localhost:8010/',
+    baseUrl: 'http://localhost:8010/',
 
     seleniumServerJar: $seleniumJar.path,
 
@@ -43,21 +38,28 @@ module.exports.config = {
     rootElement: '[ng-app]',
 
     protractorSnapshotOpts: {
-        screenshotPath: './reports/protractor/screenshots',
-        supportedResolutions: [
-
-            [1366,768],
-            [768,1024],
-            [1920,1080],
-            [360,640],
-            [320,568],
-            [1280,800],
-            [375,667],
-            [1440,900],
-            [1280,1024],
-            [1600,900],
-            [1680,1050]
-
+        image: {
+            target: './reports/protractor-snapshot/custom/image',
+            callbacks: [
+                function () {
+                    return 'customImageCallback';
+                }
+            ]
+        },
+        source: {
+            target: './reports/protractor-snapshot/custom/source',
+            callbacks: [
+                function () {
+                    return 'customSourceCallback';
+                }
+            ]
+        },
+        imageCompare: {
+            threshold: 95
+        },
+        defaultResolution: [700, 700],
+        resolutions: [
+            [1366,768]
         ]
     }
 
@@ -65,14 +67,10 @@ module.exports.config = {
 
 module.exports.config.implicitWait = 9000;
 
+
 module.exports.config.onPrepare = function () {
 
     // start server
-    require($upTheTree() + '/test/servers/server');
-
-    // start mockserver (for target uris)
-    require('./mockserver');
-
-    browser.manage().timeouts().implicitlyWait(module.exports.config.implicitWait);
+    require($upTheTree() + '/test/test-server');
 
 };

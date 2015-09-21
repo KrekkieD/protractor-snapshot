@@ -4,7 +4,7 @@
   "description": "Protractor screenshot and html snapshot utility",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/test"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,12 @@
   "devDependencies": {
     "buenos-jscs": "^0.3.2",
     "buenos-jshint": "^0.2.3",
-    "protractor": "^2.2.0"
+    "chromedriver": "^2.19.0",
+    "express": "^4.13.3",
+    "protractor": "^2.2.0",
+    "q": "^1.4.1",
+    "selenium-server-standalone-jar": "2.45.0",
+    "up-the-tree": "^0.3.2"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",

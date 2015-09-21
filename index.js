@@ -1,5 +1,7 @@
 'use strict';
 
+var $q = require('q');
+
 var $image = require('./lib/image');
 var $source = require('./lib/source');
 var $config = require('./lib/config');
@@ -17,6 +19,8 @@ function ProtractorSnapshot () {
 
     var self = this;
 
+    self.setConfig = setConfig;
+
     self.cycle = cycle;
     self.image = image;
     self.source = source;
@@ -24,9 +28,20 @@ function ProtractorSnapshot () {
     self.getSuiteName = getSuiteName;
     self.getSpecName = getSpecName;
 
-    self.config = $config.extract();
+    self.config = undefined;
+
+    self.setConfig();
+
+    function setConfig (config) {
+
+        config = config || browser.getProcessedConfig().value_.protractorSnapshotOpts;
+        self.config = $config.extract(config);
+
+    }
 
     function cycle (resolutions, callback) {
+
+        var deferreds = [];
 
         // cycle over provided or configured resolutions
         if (typeof resolutions === 'function') {
@@ -38,13 +53,15 @@ function ProtractorSnapshot () {
 
             _resizeBrowser(resolution[0], resolution[1]);
 
-            // perform callback
-            callback();
+            // perform callback and provide resolution as argument
+            deferreds.push(callback(resolution));
 
         });
 
         // reset window size to default
         _resizeBrowser(self.config.defaultResolution[0], self.config.defaultResolution[1]);
+
+        return $q.allSettled(deferreds);
 
     }
 
@@ -56,17 +73,20 @@ function ProtractorSnapshot () {
 
     function source (customConfig) {
 
-        return $source(self, self.config.image.callbacks, customConfig);
-
+        return $source(self, self.config.source.callbacks, customConfig);
 
     }
 
     function getSuiteName () {
+
         return jasmine.getEnv().currentSpec.suite.description;
+
     }
 
     function getSpecName () {
+
         return jasmine.getEnv().currentSpec.description;
+
     }
 
     function _resizeBrowser (width, height) {
