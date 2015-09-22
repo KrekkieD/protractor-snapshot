@@ -2,6 +2,14 @@
 
 Protractor HTML snapshot and screenshot utility.
 
+## Description
+
+Create HTML snapshots and screenshots from anywhere in your end-to-end tests.
+
+Includes a cycle function that can create snapshots and screenshots for every resolution you support. Very convenient for validating your responsive design.
+
+In conjunction with [buenos-uncss](https://npmjs.com/package/buenos-uncss) you can find unused CSS selectors by evaluating the HTML snapshots.
+
 ## Installing
 
 ```bash
