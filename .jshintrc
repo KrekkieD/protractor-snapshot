@@ -1,0 +1,17 @@
+{
+  "eqeqeq": true,
+  "forin": true,
+  "freeze": true,
+  "futurehostile": true,
+  "latedef": "nofunc",
+  "noarg": true,
+  "nonbsp": true,
+  "nonew": true,
+  "singleGroups": true,
+  "strict": true,
+  "undef": true,
+  "unused": true,
+  "node": true,
+  "jasmine": true,
+  "predef": ["browser"]
+}

@@ -151,6 +151,6 @@ describe('Custom config', function () {
                 done();
             });
 
-    })
+    });
 
 });

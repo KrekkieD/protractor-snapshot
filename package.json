@@ -4,7 +4,8 @@
   "description": "Protractor screenshot and html snapshot utility",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test"
+    "test": "node test/test",
+    "lint": "buenos-jscs && buenos-jshint"
   },
   "repository": {
     "type": "git",
