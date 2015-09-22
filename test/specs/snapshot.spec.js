@@ -310,20 +310,6 @@ describe('The Snapshot module', function () {
 
     });
 
-    it('Should handle slashes in names properly', function (done) {
-
-        $snapshot.image('dingles/booger')
-            .then(function (promises) {
-
-                promises.forEach(function (promise) {
-                    expect(promise.value.indexOf('dinglesbooger')).toBeGreaterThan(-1);
-                });
-
-                done();
-            });
-
-    });
-
     it('Should replace variables in the filename', function (done) {
 
         $snapshot.image('%browser% - %suiteName% - %specName% - %resolution%')
@@ -338,6 +324,81 @@ describe('The Snapshot module', function () {
 
                 done();
 
+            });
+
+    });
+
+    it('Should allow folder separators in the filename', function (done) {
+
+        var deferreds = [];
+
+        deferreds.push($snapshot.image('%browser%/%resolution%/%suiteName% - %specName% - %resolution%')
+            .then(function (promises) {
+
+                promises.forEach(function (promise) {
+
+                    expect(promise.value.indexOf('%')).toBe(-1);
+                    expect(promise.value.indexOf('/firefox/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('/1024x768/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('Should allow folder separators')).toBeGreaterThan(-1);
+                });
+
+                return promises;
+
+            }));
+
+        deferreds.push($snapshot.image('%resolution%\\%browser%\\%suiteName% - %specName% - %resolution%')
+            .then(function (promises) {
+
+                promises.forEach(function (promise) {
+
+                    expect(promise.value.indexOf('%')).toBe(-1);
+                    expect(promise.value.indexOf('/firefox/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('/1024x768/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('Should allow folder separators')).toBeGreaterThan(-1);
+                });
+
+                return promises;
+
+            }));
+
+        deferreds.push($snapshot.source('%browser%/%resolution%/%suiteName% - %specName% - %resolution%')
+            .then(function (promises) {
+
+                promises.forEach(function (promise) {
+
+                    expect(promise.value.indexOf('%')).toBe(-1);
+                    expect(promise.value.indexOf('/firefox/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('/1024x768/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('Should allow folder separators')).toBeGreaterThan(-1);
+                });
+
+                return promises;
+
+            }));
+
+        deferreds.push($snapshot.source('%resolution%\\%browser%\\%suiteName% - %specName% - %resolution%')
+            .then(function (promises) {
+
+                promises.forEach(function (promise) {
+
+                    expect(promise.value.indexOf('%')).toBe(-1);
+                    expect(promise.value.indexOf('/firefox/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('/1024x768/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('Should allow folder separators')).toBeGreaterThan(-1);
+                });
+
+                return promises;
+
+            }));
+
+        $q.allSettled(deferreds)
+            .then(function () {
+                done();
             });
 
     });

@@ -179,3 +179,5 @@ Default callback for source saving. Uses `source.target` property from config to
 ## Roadmap
 
 - implement screenshot comparison utility
+- rotate the supported resolutions
+- identify resolutions by specifying device name (i.e. iphone5)
