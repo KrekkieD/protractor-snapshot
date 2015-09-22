@@ -125,7 +125,9 @@ When using the default image callback:
 
 When using a custom callback:
 
-- The provided parameter is sent to your callback as third argument
+- The provided parameter is sent to your callback as third argument.
+
+Returns a promise that is resolved with an array of callback return values.
 
 #### `ProtractorSnapshot.source([name || callback])`
 
@@ -136,7 +138,9 @@ When using the default source callback:
 
 When using a custom callback:
 
-- The provided parameter is sent to your callback as third argument
+- The provided parameter is sent to your callback as third argument.
+
+Returns a promise that is resolved with an array of callback return values.
 
 #### `ProtractorSnapshot.getSuiteName()`
 

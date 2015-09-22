@@ -11,7 +11,7 @@ module.exports.config = {
     getPageTimeout: 15000,
 
     capabilities: {
-        browserName: 'chrome',
+        browserName: 'firefox',
         version: 'ANY',
         platform: 'ANY',
         chromeOptions: {

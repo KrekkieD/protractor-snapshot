@@ -5,7 +5,7 @@ var $q = require('q');
 var $image = require('./lib/image');
 var $source = require('./lib/source');
 var $config = require('./lib/config');
-
+var $utils = require('./lib/utils');
 
 module.exports = new ProtractorSnapshot();
 module.exports.saveImage = $image.save;
@@ -26,6 +26,8 @@ function ProtractorSnapshot () {
     self.cycle = cycle;
     self.image = image;
     self.source = source;
+
+    self.utils = $utils;
 
     self.getSuiteName = getSuiteName;
     self.getSpecName = getSpecName;

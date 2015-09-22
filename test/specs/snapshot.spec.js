@@ -245,4 +245,67 @@ describe('The Snapshot module', function () {
 
     });
 
+    it('Should automatically increment filenames if it exists', function (done) {
+
+        var deferreds = [];
+
+        var uniqueNames = [];
+
+        // need to make sure this also works once we start hitting double digits
+        for (var i = 0, iMax = 15; i < iMax; i++) {
+
+            deferreds.push($snapshot.image()
+                .then(function (promises) {
+
+                    promises.forEach(function (promise) {
+                        expect(uniqueNames.indexOf(promise.value)).toBe(-1);
+                        expect($fs.existsSync(promise.value)).toBeTruthy();
+                        uniqueNames.push(promise.value);
+                    });
+
+                }));
+
+            deferreds.push($snapshot.source()
+                .then(function (promises) {
+
+                    promises.forEach(function (promise) {
+                        expect(uniqueNames.indexOf(promise.value)).toBe(-1);
+                        expect($fs.existsSync(promise.value)).toBeTruthy();
+                        uniqueNames.push(promise.value);
+                    });
+
+                }));
+
+
+            deferreds.push($snapshot.image('my-custom-name')
+                .then(function (promises) {
+
+                    promises.forEach(function (promise) {
+                        expect(uniqueNames.indexOf(promise.value)).toBe(-1);
+                        expect($fs.existsSync(promise.value)).toBeTruthy();
+                        uniqueNames.push(promise.value);
+                    });
+
+                }));
+
+            deferreds.push($snapshot.source('my-custom-name')
+                .then(function (promises) {
+
+                    promises.forEach(function (promise) {
+                        expect(uniqueNames.indexOf(promise.value)).toBe(-1);
+                        expect($fs.existsSync(promise.value)).toBeTruthy();
+                        uniqueNames.push(promise.value);
+                    });
+
+                }));
+
+        }
+
+        $q.allSettled(deferreds)
+            .then(function () {
+                done();
+            });
+
+    });
+
 });
