@@ -324,4 +324,22 @@ describe('The Snapshot module', function () {
 
     });
 
+    it('Should replace variables in the filename', function (done) {
+
+        $snapshot.image('%browser% - %suiteName% - %specName% - %resolution%')
+            .then(function (promises) {
+
+                promises.forEach(function (promise) {
+                    expect(promise.value.indexOf('%')).toBe(-1);
+                    expect(promise.value.indexOf('firefox')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf('Should replace variables')).toBeGreaterThan(-1);
+                });
+
+                done();
+
+            });
+
+    });
+
 });

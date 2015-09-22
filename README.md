@@ -51,6 +51,11 @@ describe('The snapshot suite', function () {
 
 module.exports.config = {
 	protractorSnapshotOpts: {
+	
+		// base format for created files
+		// replaces %suiteName%, %specName%, %browser% and %resolution% with the respective values
+		basename: '%suiteName% - %specName% (%resolution%)',
+		
         image: {
         
         	// where to put the screenshots, used by the default callback
@@ -68,6 +73,7 @@ module.exports.config = {
                 require('protractor-snapshot').saveImage
             ]
         },
+        
         source: {
         
         	// where to put the html snapshots, used by the default callback
@@ -91,7 +97,7 @@ module.exports.config = {
         
         // supported resolutions, array of [width, height]
         resolutions: [
-            [1366,768]
+            [1366, 768]
         ]
     }
 }
@@ -118,27 +124,35 @@ The callback is called when the window is resized to the targeted resolution.
 
 #### `ProtractorSnapshot.image([name || callback])`
 
+Creates a screenshot. 
+
 When using the default image callback:
 
 - Specify a string to use as custom filename.
 - Specify a function to use as a custom callback (called after other callbacks).
+- Or leave empty.
 
 When using a custom callback:
 
 - The provided parameter is sent to your callback as third argument.
+- Or leave empty.
 
 Returns a promise that is resolved with an array of callback return values.
 
 #### `ProtractorSnapshot.source([name || callback])`
 
+Creates an HTML snapshot.
+
 When using the default source callback:
 
 - Specify a string to use as custom filename.
 - Specify a function to use as a custom callback (called after other callbacks).
+- Or leave empty.
 
 When using a custom callback:
 
 - The provided parameter is sent to your callback as third argument.
+- Or leave empty.
 
 Returns a promise that is resolved with an array of callback return values.
 

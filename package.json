@@ -7,6 +7,14 @@
     "test": "node test/test",
     "lint": "buenos-jscs && buenos-jshint"
   },
+  "keywords": [
+    "protractor",
+    "snapshot",
+    "screenshot",
+    "source",
+    "html",
+    "responsive"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KrekkieD/protractor-snapshot.git"
