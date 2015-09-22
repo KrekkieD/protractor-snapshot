@@ -30,6 +30,7 @@ describe('The Snapshot module', function () {
                     expect(promise.state).toBe('fulfilled');
                     expect(promise.value).toContain('The Snapshot module - Should allow screenshots to be taken');
                     expect(promise.value).toContain('.png');
+                    expect(promise.value).toContain('/image/');
 
                     expect($fs.existsSync(promise.value)).toBeTruthy();
 
@@ -95,6 +96,7 @@ describe('The Snapshot module', function () {
                     expect(promise.state).toBe('fulfilled');
                     expect(promise.value).toContain('The Snapshot module - Should allow HTML snapshots to be taken');
                     expect(promise.value).toContain('.html');
+                    expect(promise.value).toContain('/source/');
 
                     expect($fs.existsSync(promise.value)).toBeTruthy();
 
@@ -303,6 +305,20 @@ describe('The Snapshot module', function () {
 
         $q.allSettled(deferreds)
             .then(function () {
+                done();
+            });
+
+    });
+
+    it('Should handle slashes in names properly', function (done) {
+
+        $snapshot.image('dingles/booger')
+            .then(function (promises) {
+
+                promises.forEach(function (promise) {
+                    expect(promise.value.indexOf('dinglesbooger')).toBeGreaterThan(-1);
+                });
+
                 done();
             });
 
