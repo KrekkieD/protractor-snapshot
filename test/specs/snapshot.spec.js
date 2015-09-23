@@ -403,4 +403,128 @@ describe('The Snapshot module', function () {
 
     });
 
+    it('Should throw errors when config values are not ok', function () {
+
+        var tests = [
+            {
+                obj: { basename: 3 }
+            },
+
+            // image must be an object
+            {
+                obj: { image: 3 }
+            },
+            {
+                obj: { image: 'string' }
+            },
+            {
+                obj: { image: function () {} }
+            },
+
+            // image.target must be a string
+            {
+                obj: { image: { target: 3 } }
+            },
+            {
+                obj: { image: { target: {} } }
+            },
+            {
+                obj: { image: { target: function () {} } }
+            },
+
+            // image.callbacks must be an array of functions
+            {
+                obj: { image: { callbacks: 3 } }
+            },
+            {
+                obj: { image: { callbacks: {} } }
+            },
+            {
+                obj: { image: { callbacks: [1] } }
+            },
+
+            // source must be an object
+            {
+                obj: { source: 3 }
+            },
+            {
+                obj: { source: 'string' }
+            },
+            {
+                obj: { source: function () {} }
+            },
+
+            // source.target must be a string
+            {
+                obj: { source: { target: 3 } }
+            },
+            {
+                obj: { source: { target: {} } }
+            },
+            {
+                obj: { source: { target: function () {} } }
+            },
+
+            // source.callbacks must be an array of functions
+            {
+                obj: { source: { callbacks: 3 } }
+            },
+            {
+                obj: { source: { callbacks: {} } }
+            },
+            {
+                obj: { source: { callbacks: [1] } }
+            },
+
+            // defaultResolution must be an array of 2 ints
+            {
+                obj: { defaultResolution: 'string' }
+            },
+            {
+                obj: { defaultResolution: 3 }
+            },
+            {
+                obj: { defaultResolution: [] }
+            },
+            {
+                obj: { defaultResolution: ['string', 3] }
+            },
+            {
+                obj: { defaultResolution: [3, 'string'] }
+            },
+            {
+                obj: { defaultResolution: ['string', 'string'] }
+            },
+            {
+                obj: { defaultResolution: [3, 3, 3] }
+            },
+
+            // resolutions should be an array of resolutions
+            // resolutions themselves are verified through resolution validator as used by default resolution
+            {
+                obj: { resolutions: [3] }
+            },
+            {
+                obj: { resolutions: ['string'] }
+            },
+            {
+                obj: { resolutions: [[]] }
+            },
+            {
+                obj: { resolutions: [['string', 'string']] }
+            }
+
+        ];
+
+        tests.forEach(function (test) {
+
+            expect(function () {
+                $snapshot.setConfig(test.obj);
+                console.log(test.obj);
+            }).toThrow(test.err);
+
+        });
+
+    });
+
 });

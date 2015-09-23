@@ -55,7 +55,7 @@ function ProtractorSnapshot () {
 
         resolutions.forEach(function (resolution) {
 
-            _resizeBrowser(resolution[0], resolution[1]);
+            _resizeBrowser(resolution[0], resolution[1], resolution[2]);
 
             // perform callback and provide resolution as argument
             deferreds.push(callback(resolution));
@@ -93,9 +93,25 @@ function ProtractorSnapshot () {
 
     }
 
-    function _resizeBrowser (width, height) {
+    function _resizeBrowser (width, height, type) {
 
-        browser.manage().window().setSize(width, height);
+        if (type === 'window') {
+            browser.manage().window().setSize(width, height);
+        }
+        else {
+            // calculate offset
+            element(by.css('body')).getSize()
+                .then(function (value) {
+
+                    // fix the values, but make sure we're not ending up with smaller values
+                    width = Math.max(width - value.width, width);
+
+                    height = Math.max(height - value.height, height);
+
+                    _resizeBrowser(width, height, 'window');
+
+                });
+        }
 
     }
 
