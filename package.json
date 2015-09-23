@@ -1,6 +1,6 @@
 {
   "name": "protractor-snapshot",
-  "version": "0.2.4-alpha",
+  "version": "0.2.4-alpha2",
   "description": "Protractor screenshot and html snapshot utility",
   "main": "index.js",
   "scripts": {
