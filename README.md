@@ -100,12 +100,15 @@ module.exports.config = {
             ]
         },
         
-        // what resolution to turn back to after cycle(), width x height
-        defaultResolution: [700, 700],
+        // what resolution to turn back to after cycle(), [width, height, type]
+        // type can be 'window' for outer window size, or 'viewport' for viewport size
+        defaultResolution: [700, 700, 'window'],
         
-        // supported resolutions, array of [width, height]
+        // supported resolutions, array of [width, height, type]
+        // type can be 'window' for outer window size, or 'viewport' for viewport size
         resolutions: [
-            [1366, 768]
+            [1366, 768, 'window'],
+			[320, 568, 'viewport']
         ]
     }
 }

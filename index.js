@@ -115,7 +115,7 @@ function ProtractorSnapshot () {
 
             // calculate offset
             promise = promise.then(function () {
-                element(by.css('body')).getSize()
+                element(by.css('html')).getSize()
                     .then(function (value) {
 
                         // fix the values, but make sure we're not ending up with smaller values
