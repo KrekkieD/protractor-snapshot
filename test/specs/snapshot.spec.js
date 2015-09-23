@@ -10,6 +10,9 @@ describe('The Snapshot module', function () {
 
     beforeEach(function () {
         $snapshot.setConfig({});
+
+        browser.get('/index.html');
+
     });
 
     afterEach(function () {
@@ -18,7 +21,6 @@ describe('The Snapshot module', function () {
 
     it('Should allow screenshots to be taken', function (done) {
 
-        browser.get('/index.html');
 
         var deferreds = [];
 
@@ -73,6 +75,8 @@ describe('The Snapshot module', function () {
 
             });
 
+            return promises;
+
         }));
 
         $q.all(deferreds)
@@ -83,8 +87,6 @@ describe('The Snapshot module', function () {
     });
 
     it('Should allow HTML snapshots to be taken', function (done) {
-
-        browser.get('/index.html');
 
         var deferreds = [];
 
@@ -265,6 +267,8 @@ describe('The Snapshot module', function () {
                         uniqueNames.push(promise.value);
                     });
 
+                    return promises;
+
                 }));
 
             deferreds.push($snapshot.source()
@@ -275,6 +279,8 @@ describe('The Snapshot module', function () {
                         expect($fs.existsSync(promise.value)).toBeTruthy();
                         uniqueNames.push(promise.value);
                     });
+
+                    return promises;
 
                 }));
 
@@ -288,6 +294,8 @@ describe('The Snapshot module', function () {
                         uniqueNames.push(promise.value);
                     });
 
+                    return promises;
+
                 }));
 
             deferreds.push($snapshot.source('my-custom-name')
@@ -298,6 +306,8 @@ describe('The Snapshot module', function () {
                         expect($fs.existsSync(promise.value)).toBeTruthy();
                         uniqueNames.push(promise.value);
                     });
+
+                    return promises;
 
                 }));
 
@@ -519,8 +529,13 @@ describe('The Snapshot module', function () {
         tests.forEach(function (test) {
 
             expect(function () {
+
                 $snapshot.setConfig(test.obj);
+
+                // log the offending object so we can see which object failed to throw an error.
+                // it's for debugging and will only be logged if the function call did not throw
                 console.log(test.obj);
+
             }).toThrow(test.err);
 
         });

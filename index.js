@@ -18,7 +18,6 @@ function ProtractorSnapshot () {
         throw 'Could not find a "browser" variable, please confirm this is a protractor process';
     }
 
-
     var self = this;
 
     self.setConfig = setConfig;
@@ -33,6 +32,8 @@ function ProtractorSnapshot () {
     self.getSpecName = getSpecName;
 
     self.config = undefined;
+
+    self.state = {};
 
     self.setConfig();
 
@@ -55,29 +56,42 @@ function ProtractorSnapshot () {
 
         resolutions.forEach(function (resolution) {
 
-            _resizeBrowser(resolution[0], resolution[1], resolution[2]);
+            deferreds.push(_resizeBrowser(resolution[0], resolution[1], resolution[2])
+                .then(function () {
+                    self.state.resolution = [resolution[0], resolution[1]];
 
-            // perform callback and provide resolution as argument
-            deferreds.push(callback(resolution));
+                    // perform callback and provide current resolution as argument
+                    return callback(resolution);
+                }));
 
         });
 
-        // reset window size to default
-        _resizeBrowser(self.config.defaultResolution[0], self.config.defaultResolution[1]);
 
-        return $q.allSettled(deferreds);
+        return browser.wait($q.allSettled(deferreds)
+            .then(function (promises) {
+
+                // reset window size to default
+                return _resizeBrowser(self.config.defaultResolution[0], self.config.defaultResolution[1], self.config.defaultResolution[2])
+                    .then(function () {
+
+                        self.state.resolution = [self.config.defaultResolution[0], self.config.defaultResolution[1]];
+
+                        return promises;
+                    });
+
+            }));
 
     }
 
     function image (customConfig) {
 
-        return $image(self, self.config.image.callbacks, customConfig);
+        return browser.wait($image(self, self.config.image.callbacks, customConfig));
 
     }
 
     function source (customConfig) {
 
-        return $source(self, self.config.source.callbacks, customConfig);
+        return browser.wait($source(self, self.config.source.callbacks, customConfig));
 
     }
 
@@ -95,23 +109,28 @@ function ProtractorSnapshot () {
 
     function _resizeBrowser (width, height, type) {
 
-        if (type === 'window') {
-            browser.manage().window().setSize(width, height);
-        }
-        else {
+        var promise = browser.manage().window().setSize(width, height);
+
+        if (type === 'viewport') {
+
             // calculate offset
-            element(by.css('body')).getSize()
-                .then(function (value) {
+            promise = promise.then(function () {
+                element(by.css('body')).getSize()
+                    .then(function (value) {
 
-                    // fix the values, but make sure we're not ending up with smaller values
-                    width = Math.max(width - value.width, width);
+                        // fix the values, but make sure we're not ending up with smaller values
+                        width = Math.max(width - value.width + width, width);
 
-                    height = Math.max(height - value.height, height);
+                        height = Math.max(height - value.height + height, height);
 
-                    _resizeBrowser(width, height, 'window');
+                        return _resizeBrowser(width, height, 'window');
 
-                });
+                    });
+            });
+
         }
+
+        return promise;
 
     }
 

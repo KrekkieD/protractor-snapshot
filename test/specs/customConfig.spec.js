@@ -41,7 +41,7 @@ describe('Custom config', function () {
 
     });
 
-    it('Should allow HTML snapshots to be taken', function () {
+    it('Should allow HTML snapshots to be taken', function (done) {
 
         var deferreds = [];
 
@@ -74,16 +74,24 @@ describe('Custom config', function () {
 
     });
 
-    it('Should be able to do responsive snapshot trips', function () {
+    it('Should be able to do responsive snapshot trips', function (done) {
 
         var resolutions = [];
+
         $snapshot.cycle(function (resolution) {
+
             resolutions.push(resolution);
+            return resolution;
+
+        }).then(function () {
+
+            var protractorConfig = browser.getProcessedConfig().value_.protractorSnapshotOpts;
+
+            expect(resolutions).toEqual(protractorConfig.resolutions);
+
+            done();
+
         });
-
-        var protractorConfig = browser.getProcessedConfig().value_.protractorSnapshotOpts;
-
-        expect(resolutions).toEqual(protractorConfig.resolutions);
 
     });
 

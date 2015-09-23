@@ -60,7 +60,7 @@ module.exports.config = {
         },
         defaultResolution: [700, 700],
         resolutions: [
-            [1366, 768]
+            [1366, 768, 'window']
         ]
     }
 

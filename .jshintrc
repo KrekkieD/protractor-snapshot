@@ -13,5 +13,5 @@
   "unused": true,
   "node": true,
   "jasmine": true,
-  "predef": ["browser"]
+  "predef": ["browser", "element", "by"]
 }
