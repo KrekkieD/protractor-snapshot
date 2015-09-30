@@ -29,6 +29,8 @@ function ProtractorSnapshot () {
     self.utils = $utils;
 
     self.getSuiteName = getSuiteName;
+    self.getSuiteId = getSuiteId;
+
     self.getSpecName = getSpecName;
     self.getSpecId = getSpecId;
 
@@ -99,6 +101,12 @@ function ProtractorSnapshot () {
     function getSuiteName () {
 
         return jasmine.getEnv().currentSpec.suite.description;
+
+    }
+
+    function getSuiteId () {
+
+        return jasmine.getEnv().currentSpec.suite.id + 1;
 
     }
 

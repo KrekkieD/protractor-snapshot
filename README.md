@@ -61,8 +61,8 @@ module.exports.config = {
 	protractorSnapshotOpts: {
 	
 		// base format for created files
-		// replaces %suiteName%, %specName%, %specId%, %browser% and %resolution% with their respective values
-		basename: '%resolution%/%suiteName%/%browser% - %specId% - %specName%',
+		// replaces %suiteName%, %suiteId%, %specName%, %specId%, %browser% and %resolution% with their respective values
+		basename: '%resolution%/%suiteId% - %suiteName%/%browser% - %specId% - %specName%',
 		
         image: {
         
