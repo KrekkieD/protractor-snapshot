@@ -1,6 +1,7 @@
 'use strict';
 
 var $fs = require('fs');
+var $path = require('path');
 
 var $q = require('q');
 
@@ -131,7 +132,7 @@ describe('Custom config', function () {
 
                 promises.forEach(function (promise) {
 
-                    expect(promise.value).toContain('/custom/');
+                    expect(promise.value).toContain($path.sep + 'custom' + $path.sep);
                     expect($fs.existsSync(promise.value)).toBeTruthy();
 
                 });
@@ -145,7 +146,7 @@ describe('Custom config', function () {
 
                 promises.forEach(function (promise) {
 
-                    expect(promise.value).toContain('/custom/');
+                    expect(promise.value).toContain($path.sep + 'custom' + $path.sep);
                     expect($fs.existsSync(promise.value)).toBeTruthy();
 
                 });

@@ -1,6 +1,7 @@
 'use strict';
 
 var $fs = require('fs');
+var $path = require('path');
 
 var $snapshot = require('../..');
 
@@ -30,9 +31,9 @@ describe('The Snapshot module', function () {
                 promises.forEach(function (promise) {
 
                     expect(promise.state).toBe('fulfilled');
-                    expect(promise.value).toContain('The Snapshot module - Should allow screenshots to be taken');
+                    expect(promise.value).toContain('- 01 - Should allow screenshots to be taken');
                     expect(promise.value).toContain('.png');
-                    expect(promise.value).toContain('/image/');
+                    expect(promise.value).toContain($path.sep + 'image' + $path.sep);
 
                     expect($fs.existsSync(promise.value)).toBeTruthy();
 
@@ -96,9 +97,9 @@ describe('The Snapshot module', function () {
                 promises.forEach(function (promise) {
 
                     expect(promise.state).toBe('fulfilled');
-                    expect(promise.value).toContain('The Snapshot module - Should allow HTML snapshots to be taken');
+                    expect(promise.value).toContain('- 02 - Should allow HTML snapshots to be taken');
                     expect(promise.value).toContain('.html');
-                    expect(promise.value).toContain('/source/');
+                    expect(promise.value).toContain($path.sep + 'source' + $path.sep);
 
                     expect($fs.existsSync(promise.value)).toBeTruthy();
 
@@ -322,10 +323,11 @@ describe('The Snapshot module', function () {
 
     it('Should replace variables in the filename', function (done) {
 
-        $snapshot.image('%browser% - %suiteName% - %specName% - %resolution%')
+        $snapshot.image('%browser% - %suiteName% - %specIndex% - %specName% - %resolution%')
             .then(function (promises) {
 
                 promises.forEach(function (promise) {
+
                     expect(promise.value.indexOf('%')).toBe(-1);
                     expect(promise.value.indexOf('firefox')).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
@@ -348,8 +350,8 @@ describe('The Snapshot module', function () {
                 promises.forEach(function (promise) {
 
                     expect(promise.value.indexOf('%')).toBe(-1);
-                    expect(promise.value.indexOf('/firefox/')).toBeGreaterThan(-1);
-                    expect(promise.value.indexOf('/1024x768/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf($path.sep + 'firefox' + $path.sep)).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf($path.sep + '1024x768' + $path.sep)).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('Should allow folder separators')).toBeGreaterThan(-1);
                 });
@@ -364,8 +366,8 @@ describe('The Snapshot module', function () {
                 promises.forEach(function (promise) {
 
                     expect(promise.value.indexOf('%')).toBe(-1);
-                    expect(promise.value.indexOf('/firefox/')).toBeGreaterThan(-1);
-                    expect(promise.value.indexOf('/1024x768/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf($path.sep + 'firefox' + $path.sep)).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf($path.sep + '1024x768' + $path.sep)).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('Should allow folder separators')).toBeGreaterThan(-1);
                 });
@@ -380,8 +382,8 @@ describe('The Snapshot module', function () {
                 promises.forEach(function (promise) {
 
                     expect(promise.value.indexOf('%')).toBe(-1);
-                    expect(promise.value.indexOf('/firefox/')).toBeGreaterThan(-1);
-                    expect(promise.value.indexOf('/1024x768/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf($path.sep + 'firefox' + $path.sep)).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf($path.sep + '1024x768' + $path.sep)).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('Should allow folder separators')).toBeGreaterThan(-1);
                 });
@@ -396,8 +398,8 @@ describe('The Snapshot module', function () {
                 promises.forEach(function (promise) {
 
                     expect(promise.value.indexOf('%')).toBe(-1);
-                    expect(promise.value.indexOf('/firefox/')).toBeGreaterThan(-1);
-                    expect(promise.value.indexOf('/1024x768/')).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf($path.sep + 'firefox' + $path.sep)).toBeGreaterThan(-1);
+                    expect(promise.value.indexOf($path.sep + '1024x768' + $path.sep)).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('The Snapshot module')).toBeGreaterThan(-1);
                     expect(promise.value.indexOf('Should allow folder separators')).toBeGreaterThan(-1);
                 });

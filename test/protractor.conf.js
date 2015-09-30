@@ -74,6 +74,10 @@ module.exports.config.onPrepare = function () {
     // start server
     require($upTheTree() + '/test/test-server');
 
+};
+
+module.exports.config.beforeLaunch = function () {
+
     // clean reports folder
     $rimraf.sync($upTheTree() + '/reports');
 

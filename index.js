@@ -30,6 +30,7 @@ function ProtractorSnapshot () {
 
     self.getSuiteName = getSuiteName;
     self.getSpecName = getSpecName;
+    self.getSpecIndex = getSpecIndex;
 
     self.config = undefined;
 
@@ -97,13 +98,35 @@ function ProtractorSnapshot () {
 
     function getSuiteName () {
 
-        return jasmine.getEnv().currentSpec.suite.description;
+        var suiteName = jasmine.getEnv().currentSpec.suite.description;
+
+        self.state.suite = self.state.suite || {};
+        self.state.suite[suiteName] = self.state.suite[suiteName] || [];
+
+        return suiteName;
 
     }
 
     function getSpecName () {
 
-        return jasmine.getEnv().currentSpec.description;
+        var suiteName = self.getSuiteName();
+        var specName = jasmine.getEnv().currentSpec.description;
+
+        // log spec index
+        if (self.state.suite[suiteName].indexOf(specName) === -1) {
+            self.state.suite[suiteName].push(specName);
+        }
+
+        return specName;
+
+    }
+
+    function getSpecIndex () {
+
+        var suiteName = getSuiteName();
+        var specName = getSpecName();
+
+        return self.state.suite[suiteName].indexOf(specName) + 1;
 
     }
 
