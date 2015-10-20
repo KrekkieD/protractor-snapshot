@@ -44,7 +44,7 @@ describe('The Snapshot module', function () {
 
             }));
 
-        deferreds.push($snapshot.image('my-name')
+        deferreds.push($snapshot.image('my-name (%increment%)')
             .then(function (promises) {
 
                 promises.forEach(function (promise) {
@@ -111,7 +111,7 @@ describe('The Snapshot module', function () {
 
             }));
 
-        deferreds.push($snapshot.source('my-name')
+        deferreds.push($snapshot.source('my-name (%increment%)')
             .then(function (promises) {
 
                 promises.forEach(function (promise) {
@@ -288,7 +288,7 @@ describe('The Snapshot module', function () {
                 }));
 
 
-            deferreds.push($snapshot.image('my-custom-name')
+            deferreds.push($snapshot.image('my-custom-name %increment%')
                 .then(function (promises) {
 
                     promises.forEach(function (promise) {
@@ -301,7 +301,7 @@ describe('The Snapshot module', function () {
 
                 }));
 
-            deferreds.push($snapshot.source('my-custom-name')
+            deferreds.push($snapshot.source('my-custom-name %increment%')
                 .then(function (promises) {
 
                     promises.forEach(function (promise) {
@@ -325,7 +325,7 @@ describe('The Snapshot module', function () {
 
     it('Should replace variables in the filename', function (done) {
 
-        $snapshot.image('%browser% - %suiteId% - %suiteName% - %specId% - %specName% - %resolution%')
+        $snapshot.image('%browser% - %suiteId% - %suiteName% - %specId% - %specName% - %resolution% (%increment%)')
             .then(function (promises) {
 
                 promises.forEach(function (promise) {
@@ -346,7 +346,7 @@ describe('The Snapshot module', function () {
 
         var deferreds = [];
 
-        deferreds.push($snapshot.image('%browser%/%resolution%/%suiteName% - %specName% - %resolution%')
+        deferreds.push($snapshot.image('%browser%/%resolution%/%suiteName% - %specName% - %resolution% (%increment%)')
             .then(function (promises) {
 
                 promises.forEach(function (promise) {
@@ -362,7 +362,7 @@ describe('The Snapshot module', function () {
 
             }));
 
-        deferreds.push($snapshot.image('%resolution%\\%browser%\\%suiteName% - %specName% - %resolution%')
+        deferreds.push($snapshot.image('%resolution%\\%browser%\\%suiteName% - %specName% - %resolution% (%increment%)')
             .then(function (promises) {
 
                 promises.forEach(function (promise) {
@@ -378,7 +378,7 @@ describe('The Snapshot module', function () {
 
             }));
 
-        deferreds.push($snapshot.source('%browser%/%resolution%/%suiteName% - %specName% - %resolution%')
+        deferreds.push($snapshot.source('%browser%/%resolution%/%suiteName% - %specName% - %resolution% (%increment%)')
             .then(function (promises) {
 
                 promises.forEach(function (promise) {
@@ -394,7 +394,7 @@ describe('The Snapshot module', function () {
 
             }));
 
-        deferreds.push($snapshot.source('%resolution%\\%browser%\\%suiteName% - %specName% - %resolution%')
+        deferreds.push($snapshot.source('%resolution%\\%browser%\\%suiteName% - %specName% - %resolution% (%increment%)')
             .then(function (promises) {
 
                 promises.forEach(function (promise) {
