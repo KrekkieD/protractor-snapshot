@@ -10,6 +10,7 @@ var $utils = require('./lib/utils');
 module.exports = new ProtractorSnapshot();
 module.exports.saveImage = $image.save;
 module.exports.saveSource = $source.save;
+module.exports.defaultConfig = $config.defaultConfig;
 
 function ProtractorSnapshot () {
 
