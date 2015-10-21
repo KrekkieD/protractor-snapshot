@@ -11,6 +11,7 @@ module.exports = new ProtractorSnapshot();
 module.exports.saveImage = $image.save;
 module.exports.saveSource = $source.save;
 module.exports.defaultConfig = $config.defaultConfig;
+module.exports.clearTarget = $utils.clearTarget;
 
 function ProtractorSnapshot () {
 
