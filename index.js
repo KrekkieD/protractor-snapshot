@@ -7,18 +7,22 @@ var $source = require('./lib/source');
 var $config = require('./lib/config');
 var $utils = require('./lib/utils');
 
-module.exports = new ProtractorSnapshot();
+module.exports = _createInstance();
 module.exports.saveImage = $image.save;
 module.exports.saveSource = $source.save;
 module.exports.defaultConfig = $config.defaultConfig;
 module.exports.clearTarget = $utils.clearTarget;
 
-function ProtractorSnapshot () {
+function _createInstance () {
 
     // confirm we're in a protractor process
-    if (typeof browser === 'undefined') {
-        throw 'Could not find a "browser" variable, please confirm this is a protractor process';
+    if (typeof browser !== 'undefined') {
+        return new ProtractorSnapshot();
     }
+
+}
+
+function ProtractorSnapshot () {
 
     var self = this;
 
