@@ -3,9 +3,10 @@
 var $fs = require('fs');
 var $path = require('path');
 
+var $q = require('q');
+
 var $snapshot = require('../..');
 
-var $q = require('q');
 
 describe('The Snapshot module', function () {
 

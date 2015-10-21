@@ -3,7 +3,6 @@
 var $upTheTree = require('up-the-tree');
 var $seleniumJar = require('selenium-server-standalone-jar');
 var $chromeDriver = require('chromedriver');
-var $rimraf = require('rimraf');
 
 module.exports.config = {
 
@@ -61,7 +60,13 @@ module.exports.config = {
         defaultResolution: [700, 700],
         resolutions: [
             [1366, 768, 'window']
-        ]
+        ],
+        onInit: function ($protractorSnapshot) {
+
+            $protractorSnapshot.clearTarget('./reports');
+
+
+        }
     }
 
 };
@@ -78,7 +83,7 @@ module.exports.config.onPrepare = function () {
 
 module.exports.config.beforeLaunch = function () {
 
-    // clean reports folder
-    $rimraf.sync($upTheTree() + '/reports');
+    var $protractorSnapshot = require('..');
+    $protractorSnapshot.clearTarget('./reports');
 
 };

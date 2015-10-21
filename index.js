@@ -7,22 +7,16 @@ var $source = require('./lib/source');
 var $config = require('./lib/config');
 var $utils = require('./lib/utils');
 
-module.exports = _createInstance();
+module.exports = new ProtractorSnapshot();
 module.exports.saveImage = $image.save;
 module.exports.saveSource = $source.save;
 module.exports.defaultConfig = $config.defaultConfig;
 module.exports.clearTarget = $utils.clearTarget;
 
-function _createInstance () {
-
-    // confirm we're in a protractor process
-    if (typeof browser !== 'undefined') {
-        return new ProtractorSnapshot();
-    }
-
-}
 
 function ProtractorSnapshot () {
+
+    var initialized = false;
 
     var self = this;
 
@@ -44,12 +38,46 @@ function ProtractorSnapshot () {
 
     self.state = {};
 
-    self.setConfig();
+    function init () {
+
+        if (initialized === false && typeof browser !== 'undefined') {
+            initialized = true;
+            self.setConfig();
+
+            onInit();
+        }
+
+    }
 
     function setConfig (config) {
 
         config = config || browser.getProcessedConfig().value_.protractorSnapshotOpts;
         self.config = $config.extract(config);
+
+    }
+
+    function onInit () {
+
+        if (typeof self.config.onInit !== 'undefined') {
+
+            if (typeof self.config.onInit === 'function') {
+                self.config.onInit(self);
+            }
+            else if (Array.isArray(self.config.onInit)) {
+
+                self.config.onInit.forEach(function (onInitFn) {
+
+                    if (typeof onInitFn !== 'function') {
+                        throw 'config.onInit should be a function or array of functions';
+                    }
+
+                    onInitFn(self);
+
+                });
+
+            }
+
+        }
 
     }
 
@@ -94,11 +122,15 @@ function ProtractorSnapshot () {
 
     function image (customConfig) {
 
+        init();
+
         return browser.wait($image(self, self.config.image.callbacks, customConfig));
 
     }
 
     function source (customConfig) {
+
+        init();
 
         return browser.wait($source(self, self.config.source.callbacks, customConfig));
 
