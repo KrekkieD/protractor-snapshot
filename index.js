@@ -17,6 +17,7 @@ module.exports.clearTarget = $utils.clearTarget;
 function ProtractorSnapshot () {
 
     var initialized = false;
+    var configured = false;
 
     var self = this;
 
@@ -41,15 +42,22 @@ function ProtractorSnapshot () {
     function init () {
 
         if (initialized === false && typeof browser !== 'undefined') {
+
             initialized = true;
-            self.setConfig();
+
+            if (configured === false) {
+                self.setConfig();
+            }
 
             onInit();
+
         }
 
     }
 
     function setConfig (config) {
+
+        configured = true;
 
         config = config || browser.getProcessedConfig().value_.protractorSnapshotOpts;
         self.config = $config.extract(config);

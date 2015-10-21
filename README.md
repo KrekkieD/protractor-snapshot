@@ -109,7 +109,13 @@ module.exports.config = {
         resolutions: [
             [1366, 768, 'window'],
 			[320, 568, 'viewport']
-        ]
+        ],
+        
+        // function or array of function, executed on first call of image() or source()
+        // each function receives the ProtractorSnapshot instance as argument so you can use its config
+        onInit: function ($snapshot) {
+            $snapshot.clearTarget('./reports');
+        }
     }
 }
 ```
@@ -186,6 +192,10 @@ Default callback for image saving. Uses `image.target` property from config to s
 ### `$snapshot.saveSource`
 
 Default callback for source saving. Uses `source.target` property from config to store html files. 
+
+### `$snapshot.clearTarget(path)`
+
+Utility function to remove or empty a directory. This uses the [`rimraf.sync`](https://www.npmjs.com/package/rimraf) module and function. 
 
 ## Roadmap
 

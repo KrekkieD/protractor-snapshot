@@ -65,7 +65,6 @@ module.exports.config = {
 
             $protractorSnapshot.clearTarget('./reports');
 
-
         }
     }
 
