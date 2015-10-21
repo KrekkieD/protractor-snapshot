@@ -32,12 +32,12 @@
     "express": "^4.13.3",
     "protractor": "^2.2.0",
     "q": "^1.4.1",
-    "rimraf": "^2.4.3",
     "selenium-server-standalone-jar": "2.45.0",
     "up-the-tree": "^0.3.2"
   },
   "dependencies": {
     "mkdirp": "^0.5.1",
-    "sanitize-filename": "^1.4.3"
+    "sanitize-filename": "^1.4.3",
+    "rimraf": "^2.4.3"
   }
 }
