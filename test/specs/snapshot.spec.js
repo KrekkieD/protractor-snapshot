@@ -33,8 +33,8 @@ describe('The Snapshot module', function () {
                 promises.forEach(function (promise) {
 
                     expect(promise.state).toBe('fulfilled');
-                    expect(promise.value).toContain('02 - The Snapshot module');
-                    expect(promise.value).toContain('- 06 - Should allow screenshots to be taken');
+                    expect(promise.value).toContain('04 - The Snapshot module');
+                    expect(promise.value).toContain('- 08 - Should allow screenshots to be taken');
                     expect(promise.value).toContain('.png');
                     expect(promise.value).toContain($path.sep + 'image' + $path.sep);
 
@@ -100,8 +100,8 @@ describe('The Snapshot module', function () {
                 promises.forEach(function (promise) {
 
                     expect(promise.state).toBe('fulfilled');
-                    expect(promise.value).toContain('02 - The Snapshot module');
-                    expect(promise.value).toContain('- 07 - Should allow HTML snapshots to be taken');
+                    expect(promise.value).toContain('04 - The Snapshot module');
+                    expect(promise.value).toContain('- 09 - Should allow HTML snapshots to be taken');
                     expect(promise.value).toContain('.html');
                     expect(promise.value).toContain($path.sep + 'source' + $path.sep);
 
