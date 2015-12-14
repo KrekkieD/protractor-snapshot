@@ -252,25 +252,40 @@ function ProtractorSnapshot () {
 
         if (typeof height === 'string' && height.toLowerCase() === 'full') {
 
-            promise = browser.driver.executeScript(function() {
+            type = 'viewport';
 
-                var body = document.body;
-                var html = document.documentElement;
+            // first resize the browser to the current height with the new width, to prevent responsiveness errors
+            promise = browser.driver.manage().window().getSize()
+                .then(function (value) {
 
-                return Math.max(
-                    body.scrollHeight,
-                    body.offsetHeight,
-                    html.clientHeight,
-                    html.scrollHeight,
-                    html.offsetHeight
-                );
+                    return browser.driver.manage().window().setSize(width, value.height);
 
-            }).then(function (viewPortHeight) {
+                });
 
-                height = viewPortHeight;
-                return browser.driver.manage().window().setSize(width, viewPortHeight);
+            promise = promise.then(function () {
+
+                return browser.driver.executeScript(function () {
+
+                    var body = document.body;
+                    var html = document.documentElement;
+
+                    return Math.max(
+                        body.scrollHeight,
+                        body.offsetHeight,
+                        html.clientHeight,
+                        html.scrollHeight,
+                        html.offsetHeight
+                    );
+
+                }).then(function (viewPortHeight) {
+
+                    height = viewPortHeight;
+                    return browser.driver.manage().window().setSize(width, viewPortHeight);
+
+                });
 
             });
+
 
         }
         else {
@@ -281,17 +296,31 @@ function ProtractorSnapshot () {
 
             // calculate offset
             promise = promise.then(function () {
-                element(by.css('html')).getSize()
-                    .then(function (value) {
 
-                        // fix the values, but make sure we're not ending up with smaller values
-                        width = Math.max(width - value.width + width, width);
+                return browser.driver.executeScript(function () {
 
-                        height = Math.max(height - value.height + height, height);
+                    return {
+                        height: Math.max(
+                            document.documentElement.clientHeight,
+                            window.innerHeight || 0
+                        ),
+                        width: Math.max(
+                            document.documentElement.clientWidth,
+                            window.innerWidth || 0
+                        )
+                    };
 
-                        return resizeBrowser(width, height, 'window');
+                }).then(function (value) {
 
-                    });
+                    // fix the values, but make sure we're not ending up with smaller values
+                    width = Math.max(value.width, width - value.width + width, width);
+
+                    height = Math.max(value.height, height - value.height + height, height);
+
+                    return resizeBrowser(width, height, 'window');
+
+                });
+
             });
 
         }

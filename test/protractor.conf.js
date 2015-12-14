@@ -24,7 +24,7 @@ module.exports.config = {
 
     seleniumServerJar: $seleniumJar.path,
 
-    //framework: 'jasmine2',
+    // framework: 'jasmine2',
     framework: 'jasmine',
 
     jasmineNodeOpts: {
