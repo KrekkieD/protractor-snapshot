@@ -10,6 +10,8 @@ Includes a cycle function that can create snapshots and screenshots for every re
 
 In conjunction with [buenos-uncss](https://npmjs.com/package/buenos-uncss) you can find unused CSS selectors by evaluating the HTML snapshots.
 
+Works with both Jasmine v1 and v2, but note that v2 needs a small addition to your protractor config! See the `onPrepare` function in the configuration section.
+
 ## Installing
 
 ```bash
@@ -26,26 +28,26 @@ var $snapshot = require('protractor-snapshot');
 describe('The snapshot suite', function () {
 
 	it('Should create snapshots from my spec', function () {
-		
+
 		// create screenshot
 		$snapshot.image();
-		
+
 		// create html snapshot
 		$snapshot.source();
-		
+
 	});
-	
+
 	it('Should create a snapshot for each resolution I support', function () {
-	
+
 		// iterate over configured resolutions
 		$snapshot.cycle(function (resolution) {
-		
+
 			// call these functions for each resolution
 			$snapshot.image();
 			$snapshot.source();
-		
+
 		});
-	
+
 	});
 
 });
@@ -55,20 +57,21 @@ describe('The snapshot suite', function () {
 ## Configuration
 
 ```javascript
-# protractor.conf.js
+
+// protractor.conf.js
 
 module.exports.config = {
 	protractorSnapshotOpts: {
-	
+
 		// base format for created files
 		// replaces %suiteName%, %suiteId%, %specName%, %specId%, %browser%, %resolution% and %increment% with their respective values
 		basename: '%resolution%/%suiteId% - %suiteName%/%browser% - %specId% - %specName% (%increment%)',
-		
+
         image: {
-        
+
         	// where to put the screenshots, used by the default callback
             target: './reports/protractor-snapshot/custom/image',
-            
+
             // default callbacks to handle the screenshot data
             callbacks: [
                 function (instance, png, customConfig) {
@@ -76,17 +79,17 @@ module.exports.config = {
                     // png = image data
                     // customConfig = argument provided to .image()
                 },
-                
-                // by default this callback is configured 
+
+                // by default this callback is configured
                 require('protractor-snapshot').saveImage
             ]
         },
-        
+
         source: {
-        
+
         	// where to put the html snapshots, used by the default callback
             target: './reports/protractor-snapshot/custom/source',
-            
+
             // default callbacks to handle snapshot data
             callbacks: [
                 function (instance, html, customConfig) {
@@ -94,33 +97,43 @@ module.exports.config = {
                     // html = html contents of page as string
                     // customConfig = argument provided to .source()
                 },
-                
+
                 // by default this callback is configured
                 require('protractor-snapshot').saveSource
             ]
         },
-        
+
         // what resolution to turn back to after cycle(), [width, height, type]
         // type can be 'window' for outer window size, or 'viewport' for viewport size
         defaultResolution: [700, 700, 'window'],
-        
+
         // supported resolutions, array of [width, height, type]
         // type can be 'window' for outer window size, or 'viewport' for viewport size
         resolutions: [
             [1366, 768, 'window'],
 			[320, 568, 'viewport']
         ],
-        
+
         // function or array of function, executed on first call of image() or source()
         // each function receives the ProtractorSnapshot instance as argument so you can use its config
         onInit: function ($snapshot) {
             $snapshot.clearTarget('./reports');
         }
+    },
+
+    onPrepare: function () {
+
+        // For Jasmine V2 a reporter needs to be added to be able to access the suite/spec names
+        var $protractorSnapshot = require('protractor-snapshot');
+        $protractorSnapshot.addReporter();
+
     }
-}
+};
 ```
 
+
 ## API
+
 ### ProtractorSnapshot (class)
 
 Instance is created and configured on `require()`.
@@ -135,13 +148,13 @@ Reconfigure the current instance with new options. `options` are always extended
 
 #### `ProtractorSnapshot.cycle([resolutions], callback)`
 
-Provide `resolutions` to override configured resolutions. 
+Provide `resolutions` to override configured resolutions.
 
-The callback is called when the window is resized to the targeted resolution. 
+The callback is called when the window is resized to the targeted resolution.
 
 #### `ProtractorSnapshot.image([name || callback])`
 
-Creates a screenshot. 
+Creates a screenshot.
 
 When using the default image callback:
 
@@ -191,11 +204,11 @@ Default callback for image saving. Uses `image.target` property from config to s
 
 ### `$snapshot.saveSource`
 
-Default callback for source saving. Uses `source.target` property from config to store html files. 
+Default callback for source saving. Uses `source.target` property from config to store html files.
 
 ### `$snapshot.clearTarget(path)`
 
-Utility function to remove or empty a directory. This uses the [`rimraf.sync`](https://www.npmjs.com/package/rimraf) module and function. 
+Utility function to remove or empty a directory. This uses the [`rimraf.sync`](https://www.npmjs.com/package/rimraf) module and function.
 
 ## Roadmap
 

@@ -11,6 +11,7 @@ var $snapshot = require('../..');
 describe('The Snapshot module', function () {
 
     beforeEach(function () {
+
         $snapshot.setConfig({});
 
         browser.get('/index.html');
@@ -541,7 +542,7 @@ describe('The Snapshot module', function () {
                 // it's for debugging and will only be logged if the function call did not throw
                 console.log(test.obj);
 
-            }).toThrow(test.err);
+            }).toThrow();
 
         });
 

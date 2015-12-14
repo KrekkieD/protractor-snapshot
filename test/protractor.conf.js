@@ -6,8 +6,8 @@ var $chromeDriver = require('chromedriver');
 
 module.exports.config = {
 
-    allScriptsTimeout: 15000,
-    getPageTimeout: 15000,
+    allScriptsTimeout: 10000,
+    getPageTimeout: 10000,
 
     capabilities: {
         browserName: 'firefox',
@@ -24,10 +24,11 @@ module.exports.config = {
 
     seleniumServerJar: $seleniumJar.path,
 
+    //framework: 'jasmine2',
     framework: 'jasmine',
 
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 25000,
+        defaultTimeoutInterval: 10000,
         isVerbose: true,
         showColors: true,
         includeStackTrace: false
@@ -77,6 +78,9 @@ module.exports.config.onPrepare = function () {
 
     // start server
     require($upTheTree() + '/test/test-server');
+
+    var $protractorSnapshot = require('..');
+    $protractorSnapshot.addReporter();
 
 };
 
