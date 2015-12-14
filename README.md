@@ -118,7 +118,10 @@ module.exports.config = {
         // each function receives the ProtractorSnapshot instance as argument so you can use its config
         onInit: function ($snapshot) {
             $snapshot.clearTarget('./reports');
-        }
+        },
+
+        // write a log of all created snapshots, set to false to disable
+        report: './reports/protractor-snapshot/report.json'
     },
 
     onPrepare: function () {

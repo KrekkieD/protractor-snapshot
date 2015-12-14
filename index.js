@@ -7,6 +7,7 @@ var $source = require('./lib/source');
 var $config = require('./lib/config');
 var $utils = require('./lib/utils');
 var $reporter = require('./lib/jasmineReporter');
+var $log = require('./lib/log');
 
 module.exports = new ProtractorSnapshot();
 module.exports.saveImage = $image.save;
@@ -20,6 +21,8 @@ function ProtractorSnapshot () {
     var configured = false;
 
     var self = this;
+
+    self.report = {};
 
     self.jasmineVersion = 1;
 
@@ -37,7 +40,11 @@ function ProtractorSnapshot () {
     self.getSpecName = getSpecName;
     self.getSpecId = getSpecId;
 
+    self.getResolution = getResolution;
+
     self.addReporter = addReporter;
+    self.log = log;
+    self.resizeBrowser = resizeBrowser;
 
     self.config = undefined;
 
@@ -107,7 +114,7 @@ function ProtractorSnapshot () {
 
         resolutions.forEach(function (resolution) {
 
-            deferreds.push(_resizeBrowser(resolution[0], resolution[1], resolution[2])
+            deferreds.push(resizeBrowser(resolution[0], resolution[1], resolution[2])
                 .then(function () {
                     self.state.resolution = [resolution[0], resolution[1]];
 
@@ -122,7 +129,7 @@ function ProtractorSnapshot () {
             .then(function (promises) {
 
                 // reset window size to default
-                return _resizeBrowser(self.config.defaultResolution[0], self.config.defaultResolution[1], self.config.defaultResolution[2])
+                return resizeBrowser(self.config.defaultResolution[0], self.config.defaultResolution[1], self.config.defaultResolution[2])
                     .then(function () {
 
                         self.state.resolution = [self.config.defaultResolution[0], self.config.defaultResolution[1]];
@@ -147,6 +154,12 @@ function ProtractorSnapshot () {
         init();
 
         return browser.wait($source(self, self.config.source.callbacks, customConfig));
+
+    }
+
+    function getResolution () {
+
+        return self.state.resolution[0] + 'x' + self.state.resolution[1];
 
     }
 
@@ -216,8 +229,14 @@ function ProtractorSnapshot () {
         // property is not present in jasmine v1 so use it as indication of v2+
         if (typeof jasmine.version !== 'undefined') {
             self.jasmineVersion = jasmine.version.split('.').shift();
-            jasmine.getEnv().addReporter(new $reporter());
+            jasmine.getEnv().addReporter(new $reporter(self));
         }
+
+    }
+
+    function log (filename) {
+
+        $log.log(self, filename);
 
     }
 
@@ -227,9 +246,36 @@ function ProtractorSnapshot () {
 
     }
 
-    function _resizeBrowser (width, height, type) {
+    function resizeBrowser (width, height, type) {
 
-        var promise = browser.manage().window().setSize(width, height);
+        var promise;
+
+        if (typeof height === 'string' && height.toLowerCase() === 'full') {
+
+            promise = browser.driver.executeScript(function() {
+
+                var body = document.body;
+                var html = document.documentElement;
+
+                return Math.max(
+                    body.scrollHeight,
+                    body.offsetHeight,
+                    html.clientHeight,
+                    html.scrollHeight,
+                    html.offsetHeight
+                );
+
+            }).then(function (viewPortHeight) {
+
+                height = viewPortHeight;
+                return browser.driver.manage().window().setSize(width, viewPortHeight);
+
+            });
+
+        }
+        else {
+            promise = browser.manage().window().setSize(width, height);
+        }
 
         if (type === 'viewport') {
 
@@ -243,7 +289,7 @@ function ProtractorSnapshot () {
 
                         height = Math.max(height - value.height + height, height);
 
-                        return _resizeBrowser(width, height, 'window');
+                        return resizeBrowser(width, height, 'window');
 
                     });
             });

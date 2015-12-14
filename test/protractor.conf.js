@@ -6,8 +6,8 @@ var $chromeDriver = require('chromedriver');
 
 module.exports.config = {
 
-    allScriptsTimeout: 10000,
-    getPageTimeout: 10000,
+    allScriptsTimeout: 15000,
+    getPageTimeout: 15000,
 
     capabilities: {
         browserName: 'firefox',
@@ -28,7 +28,7 @@ module.exports.config = {
     framework: 'jasmine',
 
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 10000,
+        defaultTimeoutInterval: 15000,
         isVerbose: true,
         showColors: true,
         includeStackTrace: false

@@ -548,4 +548,14 @@ describe('The Snapshot module', function () {
 
     });
 
+    it('should be able to resize to the full document height', function () {
+
+        $snapshot.cycle([
+            [1024, 'full', 'window']
+        ], function (resolution) {
+            $snapshot.image();
+        });
+
+    });
+
 });
