@@ -91,6 +91,8 @@ function ProtractorSnapshot () {
 
     function cycle (resolutions, callback) {
 
+        init();
+
         var deferreds = [];
 
         // cycle over provided or configured resolutions
