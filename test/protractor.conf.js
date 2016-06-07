@@ -13,6 +13,7 @@ module.exports.config = {
         browserName: 'firefox',
         version: 'ANY',
         platform: 'ANY',
+
         chromeOptions: {
             args: ['--test-type']
         }
@@ -24,8 +25,7 @@ module.exports.config = {
 
     seleniumServerJar: $seleniumJar.path,
 
-    // framework: 'jasmine2',
-    framework: 'jasmine',
+    framework: 'jasmine2',
 
     jasmineNodeOpts: {
         defaultTimeoutInterval: 15000,

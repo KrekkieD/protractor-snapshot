@@ -4,8 +4,10 @@
   "description": "Protractor screenshot and html snapshot utility",
   "main": "index.js",
   "scripts": {
+    "pretest": "npm run update-webdriver",
     "test": "node test/test",
-    "lint": "buenos-jscs && buenos-jshint"
+    "lint": "buenos-jscs && buenos-jshint",
+    "update-webdriver": "webdriver-manager update"
   },
   "keywords": [
     "protractor",
@@ -30,14 +32,15 @@
     "buenos-jshint": "^0.2.3",
     "chromedriver": "^2.19.0",
     "express": "^4.13.3",
-    "protractor": "^2.2.0",
-    "q": "^1.4.1",
-    "selenium-server-standalone-jar": "2.45.0",
+    "protractor": "^3.0.0",
+    "selenium-server-standalone-jar": "^2.45.0",
     "up-the-tree": "^0.3.2"
   },
   "dependencies": {
+    "cheerio": "^0.20.0",
     "mkdirp": "^0.5.1",
+    "rimraf": "^2.4.3",
     "sanitize-filename": "^1.4.3",
-    "rimraf": "^2.4.3"
+    "q": "^1.4.1"
   }
 }

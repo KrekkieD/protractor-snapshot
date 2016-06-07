@@ -90,6 +90,9 @@ module.exports.config = {
         	// where to put the html snapshots, used by the default callback
             target: './reports/protractor-snapshot/custom/source',
 
+            // remove <meta name="fragment" content="!"> elements from the HTML snapshots
+            removeMetaFragments: false,
+            
             // default callbacks to handle snapshot data
             callbacks: [
                 function (instance, html, customConfig) {

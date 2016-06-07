@@ -162,4 +162,39 @@ describe('Custom config', function () {
 
     });
 
+    it('Should remove meta fragments', function (done) {
+
+        var protractorConfig = browser.getProcessedConfig().value_.protractorSnapshotOpts;
+
+        delete protractorConfig.source.callbacks;
+
+        protractorConfig.source.removeMetaFragments = true;
+
+        browser.get('/index.html');
+
+        $snapshot.setConfig(protractorConfig);
+
+        var deferreds = [];
+
+        deferreds.push($snapshot.source()
+            .then(function (promises) {
+
+                promises.forEach(function (promise) {
+
+                    expect(promise.value).toContain($path.sep + 'custom' + $path.sep);
+                    expect($fs.readFileSync(promise.value).toString()).not.toContain('name="fragment"');
+
+                });
+
+                return promises;
+
+            }));
+
+        $q.all(deferreds)
+            .then(function () {
+                done();
+            });
+
+    });
+
 });

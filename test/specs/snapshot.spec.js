@@ -34,7 +34,7 @@ describe('The Snapshot module', function () {
 
                     expect(promise.state).toBe('fulfilled');
                     expect(promise.value).toContain('04 - The Snapshot module');
-                    expect(promise.value).toContain('- 08 - Should allow screenshots to be taken');
+                    expect(promise.value).toContain('- 09 - Should allow screenshots to be taken');
                     expect(promise.value).toContain('.png');
                     expect(promise.value).toContain($path.sep + 'image' + $path.sep);
 
@@ -101,7 +101,7 @@ describe('The Snapshot module', function () {
 
                     expect(promise.state).toBe('fulfilled');
                     expect(promise.value).toContain('04 - The Snapshot module');
-                    expect(promise.value).toContain('- 09 - Should allow HTML snapshots to be taken');
+                    expect(promise.value).toContain('- 10 - Should allow HTML snapshots to be taken');
                     expect(promise.value).toContain('.html');
                     expect(promise.value).toContain($path.sep + 'source' + $path.sep);
 
